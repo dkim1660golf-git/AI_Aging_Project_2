@@ -26,17 +26,25 @@ FIELDNAMES = [
 
 INTERVENTION_PATTERNS: list[tuple[str, str, str]] = [
     ("senolytic", "Dasatinib+Quercetin", r"\b(dasatinib\s*\+\s*quercetin|d\+q)\b"),
-    ("senolytic", "Navitoclax", r"\bnavitoclax\b|\babt-?263\b"),
+    ("senolytic", "Navitoclax", r"\b(navitoclax|abt-?263|abt-?737)\b"),
     ("senolytic", "Fisetin", r"\bfisetin\b"),
     ("senolytic", "Quercetin", r"\bquercetin\b"),
     ("senolytic", "Dasatinib", r"\bdasatinib\b"),
-    ("senolytic", "senolytic_generic", r"\bsenolytic(s| therapy| agent(s)?)?\b"),
-    ("partial_reprogramming", "OSKM", r"\boskm\b|\boct4\b.*\bsox2\b.*\bklf4\b.*\b(c-?myc|myc)\b"),
+    (
+        "senolytic",
+        "senolytic_or_senomorphic",
+        r"\b(senolytic(s| therapy| agent(s)?)?|senomorphic(s| therapy| agent(s)?)?|senotherap(y|ies))\b",
+    ),
+    (
+        "partial_reprogramming",
+        "OSKM",
+        r"\boskm\b|\b(oct4|sox2|klf4|c-?myc)\b.*\b(oct4|sox2|klf4|c-?myc)\b|\byamanaka\s+factor(s)?\b",
+    ),
     ("partial_reprogramming", "OSK", r"\bosk\b"),
     (
         "partial_reprogramming",
         "partial_reprogramming_generic",
-        r"\b(partial|transient|short-term)\s+(cellular\s+)?reprogramming\b|\bepigenetic\s+rejuvenation\b",
+        r"\b((partial|transient|short-term|cyclic|in\s+vivo)\s+)?(cellular\s+|epigenetic\s+)?reprogramming\b|\b(epigenetic\s+|cellular\s+|age\s+)?rejuvenat(e|ion|ing)\b",
     ),
 ]
 
@@ -64,6 +72,9 @@ CELL_PATTERNS: list[tuple[str, str]] = [
     ("microglia", r"\bmicroglia(l)?\b"),
     ("neuron", r"\bneuron(s|al)?\b"),
     ("macrophage", r"\bmacrophage(s)?\b"),
+    ("pericyte", r"\bpericyte(s)?\b"),
+    ("hepatocyte", r"\bhepatocyte(s)?\b"),
+    ("cardiomyocyte", r"\bcardiomyocyte(s)?\b"),
     ("stem_cell", r"\b(stem\s+cell(s)?|progenitor(s)?|ipsc(s)?)\b"),
     ("senescent_cell", r"\b(senescent\s+cell(s)?|snC(s)?)\b"),
 ]
@@ -274,7 +285,7 @@ def extract_from_paper(paper: dict[str, Any], start_obs_num: int) -> list[dict[s
 
 
 def main() -> None:
-    input_path = Path("data/raw/papers_v0_1.jsonl")
+    input_path = Path("data/raw/papers_v0_2.jsonl")
     output_path = Path("data/curated/observations.csv")
 
     if not input_path.exists():
