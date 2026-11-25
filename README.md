@@ -26,8 +26,6 @@ This repository aggregates structured `(intervention × cell/tissue × marker/sa
 ![Senolytic vs. Partial Reprogramming by Marker](assets/summary_markers_comparison.png)
 * **Marker-Level Comparison:** Contrasts the frequency of specific endpoints (`CDKN2A/p16`, `CDKN1A/p21`, `SA-beta-gal`, `SASP`, `epigenetic_age`, `tumor_formation`, `toxicity_endpoint`) between senolytic and partial reprogramming literature.
 
-> **Status (`v0.1.0`):** Early-stage open dataset and extraction pipeline. Records marked `auto_extracted` or `needs_review` are rule-extracted candidates and are progressively verified (`human_verified`). Always verify primary sources (`record_id`, `evidence_quote`) before downstream research use.
-
 ---
 
 ## Repository Structure
