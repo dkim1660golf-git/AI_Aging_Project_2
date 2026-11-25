@@ -1,0 +1,19 @@
+@'
+# Python / cache / virtual envs
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.conda/
+.ipynb_checkpoints/
+
+# Editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets / local env
+.env
+'@ | Set-Content -Path .gitignore -Encoding utf8
+
+"# AI Aging Project 2" | Set-Content -Path README.md -Encoding utf8
