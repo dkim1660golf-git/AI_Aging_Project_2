@@ -2,6 +2,8 @@
 
 An open-source curation pipeline and structured database cataloging **cell-type- and tissue-specific efficacy, aging marker changes, and safety signals (toxicity / oncogenesis)** for **senolytics** and **partial reprogramming** studies from PubMed and bioRxiv.
 
+![Observations Summary](assets/summary_overview.png)
+
 > **Status (`v0.1.0`):** Early-stage open dataset and extraction pipeline. Records marked `auto_extracted` or `needs_review` are rule-extracted candidates and are progressively verified (`human_verified`). Always verify primary sources (`record_id`, `evidence_quote`) before downstream research use.
 
 ---
