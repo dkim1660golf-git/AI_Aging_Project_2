@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aging Intervention Observations Schema",
+  "description": "Schema and validation rules for senolytics and partial reprogramming observations extracted from PubMed and bioRxiv abstracts.",
+  "version": "0.1.0",
+  "dataset_file": "data/curated/observations.csv",
+  "primary_key": "obs_id",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "obs_id",
+      "record_id",
+      "source",
+      "is_preprint",
+      "intervention_type",
+      "intervention_name",
+      "tissue_or_organ",
+      "cell_type",
+      "aspect_category",
+      "marker_or_endpoint",
+      "direction",
+      "safety_flag",
+      "evidence_quote",
+      "curation_status"
+    ],
+    "properties": {
+      "obs_id": {
+        "type": "string",
+        "pattern": "^OBS_[0-9]{6,}$",
+        "description": "Unique observation ID, e.g., OBS_000001."
+      },
+      "record_id": {
+        "type": "string",
+        "pattern": "^(PMID:[0-9]+|DOI:10\\..+)$",
+        "description": "Linked source identifier from raw papers dataset (PMID:... or DOI:10....)."
+      },
+      "source": {
+        "type": "string",
+        "enum": ["pubmed", "biorxiv"],
+        "description": "Source database where the paper was collected."
+      },
+      "is_preprint": {
+        "type": "boolean",
+        "description": "Whether the record is a preprint (true for bioRxiv, false for PubMed)."
+      },
+      "pub_year": {
+        "type": "string",
+        "pattern": "^([0-9]{4}|unknown)$",
+        "default": "unknown",
+        "description": "4-digit publication/posting year or 'unknown'."
+      },
+      "intervention_type": {
+        "type": "string",
+        "enum": [
+          "senolytic",
+          "partial_reprogramming",
+          "other",
+          "unclear"
+        ],
+        "description": "High-level intervention category."
+      },
+      "intervention_name": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Compound or reprogramming factor name (e.g., Dasatinib+Quercetin, OSKM, OSK, or 'unknown')."
+      },
+      "model_system": {
+        "type": "string",
+        "enum": [
+          "in_vitro",
+          "in_vivo",
+          "ex_vivo",
+          "organoid",
+          "unknown"
+        ],
+        "default": "unknown",
+        "description": "Experimental model system."
+      },
+      "species": {
+        "type": "string",
+        "enum": [
+          "human",
+          "mouse",
+          "rat",
+          "other",
+          "unknown"
+        ],
+        "default": "unknown",
+        "description": "Organism species."
+      },
+      "tissue_or_organ": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Target tissue or organ in lowercase snake_case (e.g., lung, brain, kidney, skin, liver, systemic) or 'not_specified'."
+      },
+      "cell_type": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Target cell type in lowercase snake_case (e.g., fibroblast, chondrocyte, microglia, endothelial_cell) or 'not_specified'."
+      },
+      "aspect_category": {
+        "type": "string",
+        "enum": [
+          "aging_marker",
+          "toxicity",
+          "oncogenesis",
+          "senescence_clearance",
+          "rejuvenation_phenotype"
+        ],
+        "description": "Primary evaluation aspect represented by this row."
+      },
+      "marker_or_endpoint": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Measured aging marker or safety/oncogenesis endpoint (e.g., CDKN2A/p16, SA-beta-gal, SASP, tumor_formation)."
+      },
+      "direction": {
+        "type": "string",
+        "enum": [
+          "decreased",
+          "increased",
+          "unchanged",
+          "absent",
+          "present",
+          "unclear"
+        ],
+        "description": "Observed direction of change or presence/absence."
+      },
+      "safety_flag": {
+        "type": "string",
+        "enum": [
+          "none_reported",
+          "potential_toxicity",
+          "oncogenic_risk",
+          "mixed_or_unclear"
+        ],
+        "description": "Summary flag for toxicity or oncogenesis signals."
+      },
+      "evidence_quote": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Supporting excerpt or sentence from the abstract."
+      },
+      "curation_status": {
+        "type": "string",
+        "enum": [
+          "auto_extracted",
+          "human_verified",
+          "needs_review"
+        ],
+        "description": "Verification status of the observation row."
+      }
+    }
+  },
+  "validation_rules": {
+    "csv_notes": [
+      "When reading observations.csv in Python, keep_default_na=False is recommended so 'unknown' or 'not_specified' strings are not silently turned into NaN.",
+      "Boolean fields like is_preprint in CSV should be normalized to 'true' or 'false' (or parsed cleanly as bool).",
+      "Duplicate obs_id values or missing evidence_quote values should fail validation."
+    ]
+  }
+}
